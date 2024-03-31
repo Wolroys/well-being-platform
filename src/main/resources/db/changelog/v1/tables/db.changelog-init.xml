@@ -1,0 +1,176 @@
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="v1-1" author="Aleksey Paslenov">
+
+        <createTable tableName="users">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(256)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(64)" defaultValue="user">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-2" author="Aleksey Paslenov">
+
+        <createTable tableName="event">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(512)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar">
+            </column>
+            <column name="date" type="timestamp">
+            </column>
+            <column name="speaker" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="link" type="varchar(512)">
+            </column>
+            <column name="status" type="varchar(64)" defaultValue="planned">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-3" author="Aleksey Paslenov">
+
+        <createTable tableName="question">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="event_id" type="bigint">
+                <constraints referencedTableName="event" referencedColumnNames="id"
+                             foreignKeyName="event_question_fk"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="user_question_fk"/>
+            </column>
+            <column name="text" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(64)" defaultValue="new">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-4" author="Aleksey Paslenov">
+
+        <createTable tableName="answer">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="question_id" type="bigint">
+                <constraints referencedTableName="question" referencedColumnNames="id"
+                             foreignKeyName="question_answer_fk"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="user_answer_fk"/>
+            </column>
+            <column name="text" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-5" author="Aleksey Paslenov">
+
+        <createTable tableName="feedback">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="text" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rating" type="int">
+                <constraints checkConstraint="CHECK (rating &gt;=1 AND rating &lt;= 5)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-6" author="Aleksey Paslenov">
+
+        <createTable tableName="survey">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar"/>
+            <column name="date" type="timestamp"/>
+            <column name="status" type="varchar(64)" defaultValue="planned"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-7" author="Aleksey Paslenov">
+
+        <createTable tableName="survey_question">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="survey_id" type="bigint">
+                <constraints referencedTableName="survey" referencedColumnNames="id"
+                             foreignKeyName="survey_question_fk"/>
+            </column>
+            <column name="text" type="varchar"/>
+            <column name="type" type="varchar(64)" defaultValue="single choice"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-8" author="">
+
+        <createTable tableName="survey_answer">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="question_id" type="bigint">
+                <constraints referencedTableName="survey_question" referencedColumnNames="id"
+                             foreignKeyName="survey_question_answer_fk"/>
+            </column>
+            <column name="text" type="varchar">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1-9" author="Aleksey Paslenov">
+
+        <createTable tableName="survey_result">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="survey_id" type="bigint">
+                <constraints referencedTableName="survey" referencedColumnNames="id"
+                             foreignKeyName="survey_result_fk"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="user_survey_result_fk"/>
+            </column>
+            <column name="answer" type="jsonb">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

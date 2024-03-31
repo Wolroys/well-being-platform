@@ -4,3 +4,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/well-being
     username: postgres
     password: 9567
+
+  liquibase:
+    change-log: db/changelog/changelog-master.xml
