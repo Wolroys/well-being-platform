@@ -1,15 +1,12 @@
 package com.wolroys.wellbeing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wolroys.wellbeing.dto.EventRequestDto;
 import com.wolroys.wellbeing.entity.Event;
 import com.wolroys.wellbeing.entity.Status;
 import com.wolroys.wellbeing.repository.EventRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.SneakyThrows;
-import org.assertj.core.api.Assertions;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,13 +23,11 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,28 +36,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class RepositoryTest {
 
-    @LocalServerPort
-    private Integer port;
-
-    @Autowired
-    private MockMvc mockMvc;
     @Container
     private static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:9.6.12");
-
+    @LocalServerPort
+    private Integer port;
+    @Autowired
+    private MockMvc mockMvc;
     @Autowired
     private EventRepository eventRepository;
-
-    @BeforeEach
-    void setUp() {
-        RestAssured.baseURI = "http://localhost:" + port;
-        eventRepository.deleteAll();
-    }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
+    }
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.baseURI = "http://localhost:" + port;
+        eventRepository.deleteAll();
     }
 
     @Test
