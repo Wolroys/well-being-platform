@@ -1,11 +1,11 @@
 package com.wolroys.wellbeing.service.impl;
 
-import com.wolroys.wellbeing.util.mapper.EventMapper;
-import com.wolroys.wellbeing.dto.EventRequestDto;
 import com.wolroys.wellbeing.dto.EventDto;
+import com.wolroys.wellbeing.dto.EventRequestDto;
 import com.wolroys.wellbeing.entity.Event;
 import com.wolroys.wellbeing.repository.EventRepository;
 import com.wolroys.wellbeing.service.EventService;
+import com.wolroys.wellbeing.util.mapper.EventMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,9 @@ public class EventServiceImpl implements EventService {
     public EventDto create(EventRequestDto eventRequest) {
         Event event = eventMapper.toEntity(eventRequest);
 
+
         eventRepository.save(event);
+        log.info("Event {} was added", event.getTitle());
 
         return eventMapper.toDto(event);
     }
@@ -70,7 +72,7 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventDto edit(Long id, EventRequestDto updatedEvent) {
-        boolean isAccountEdited = false;
+        boolean isEventEdited = false;
 
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> {
@@ -80,35 +82,35 @@ public class EventServiceImpl implements EventService {
 
         if (StringUtils.hasText(updatedEvent.getTitle())) {
             event.setTitle(updatedEvent.getTitle());
-            isAccountEdited = true;
+            isEventEdited = true;
         }
 
         if (StringUtils.hasText(updatedEvent.getLink())) {
             event.setLink(updatedEvent.getLink());
-            isAccountEdited = true;
+            isEventEdited = true;
         }
 
         if (StringUtils.hasText(updatedEvent.getDescription())) {
             event.setDescription(updatedEvent.getDescription());
-            isAccountEdited = true;
+            isEventEdited = true;
         }
 
         if (StringUtils.hasText(updatedEvent.getSpeaker())) {
             event.setSpeaker(updatedEvent.getSpeaker());
-            isAccountEdited = true;
+            isEventEdited = true;
         }
 
         if (updatedEvent.getStatus() != null && StringUtils.hasText(updatedEvent.getStatus().toString())) {
             event.setStatus(updatedEvent.getStatus());
-            isAccountEdited = true;
+            isEventEdited = true;
         }
 
         if (updatedEvent.getDate() != null && StringUtils.hasText(updatedEvent.getDate().toString())) { //TODO проверка что дата должна быть не раньше текущего времени
             event.setDate(updatedEvent.getDate());
-            isAccountEdited = true;
+            isEventEdited = true;
         }
 
-        if (isAccountEdited) {
+        if (isEventEdited) {
             event = eventRepository.save(event);
             log.info("Event has been edited");
         }
