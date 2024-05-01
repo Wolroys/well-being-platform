@@ -1,5 +1,6 @@
 package com.wolroys.wellbeing.controller;
 
+import com.wolroys.wellbeing.dto.AuthorizationRequest;
 import com.wolroys.wellbeing.dto.UserDto;
 import com.wolroys.wellbeing.dto.UserRequestDto;
 import com.wolroys.wellbeing.service.UserService;
@@ -15,6 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @PostMapping("/login")
+    private ResponseEntity<Response<UserDto>> login(@RequestBody AuthorizationRequest authorizationRequest) {
+        return ResponseEntity.ok(userService.login(authorizationRequest));
+    }
 
     @GetMapping
     public ResponseEntity<ResponseWithList<UserDto>> findAllEvents() {

@@ -7,3 +7,11 @@ spring:
 
   liquibase:
     change-log: db/changelog/changelog-master.xml
+
+jwt:
+  token:
+    secret: jwtsecretsecretsecretsecretsecretsecretsecretsecret
+    expired: 1209600000
+
+  refreshToken:
+    expired: 1209600000
