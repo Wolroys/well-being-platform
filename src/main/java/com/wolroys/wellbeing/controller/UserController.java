@@ -27,9 +27,9 @@ public class UserController {
         return ResponseEntity.ok(new ResponseWithList<UserDto>().foundWithPages(userService.getAll()));
     }
 
-    @PostMapping("/add")
+    @PostMapping("/register")
     public ResponseEntity<Response<UserDto>> createEvent(@RequestBody UserRequestDto userRequestDto) {
-        return ResponseEntity.ok(new Response<UserDto>().created(userService.create(userRequestDto)));
+        return ResponseEntity.ok(new Response<UserDto>().created(userService.register(userRequestDto)));
     }
 
     @PutMapping("/edit/{id}")

@@ -13,11 +13,11 @@ public interface UserService {
 
     UserDto findById(Long id);
 
-    UserDto create(UserRequestDto userRequestDto);
-
     UserDto deleteById(Long id);
 
     UserDto edit(Long id, UserRequestDto userDto);
 
     Response<UserDto> login(AuthorizationRequest authorizationRequest);
+
+    UserDto register(UserRequestDto userRequestDto);
 }

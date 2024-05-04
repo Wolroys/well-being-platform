@@ -63,19 +63,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto create(UserRequestDto userRequestDto) {
-        User user = userMapper.toEntity(userRequestDto);
-
-        user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        log.info("User {} was added", user.getName());
-
-        return userMapper.toDto(user);
-    }
-
-    @Override
-    @Transactional
     public UserDto deleteById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
@@ -145,5 +132,18 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("Email wasn't found"));
 
         return new Response<UserDto>().login(token, userMapper.toDto(user));
+    }
+
+    @Override
+    @Transactional
+    public UserDto register(UserRequestDto userRequestDto) {
+        User user = userMapper.toEntity(userRequestDto);
+
+        user.setRole(Role.USER);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        log.info("User {} was added", user.getName());
+
+        return userMapper.toDto(user);
     }
 }
