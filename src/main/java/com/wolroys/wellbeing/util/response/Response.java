@@ -43,4 +43,12 @@ public class Response<E> {
         timestamp = LocalDateTime.now();
         return this;
     }
+
+    public Response<E> login(String token, E data) {
+        success = "authentication was successful";
+        this.data = data;
+        this.token = token;
+        timestamp = LocalDateTime.now();
+        return this;
+    }
 }
