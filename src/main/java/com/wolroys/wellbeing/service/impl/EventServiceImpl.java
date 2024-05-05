@@ -8,6 +8,7 @@ import com.wolroys.wellbeing.service.EventService;
 import com.wolroys.wellbeing.util.mapper.EventMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -24,8 +25,8 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
 
     @Override
-    public List<EventDto> getAll() {
-        return eventRepository.findAllByOrderByDateAsc()
+    public List<EventDto> getAll(Pageable pageable) {
+        return eventRepository.findAll(pageable)
                 .stream()
                 .map(eventMapper::toDto)
                 .toList();

@@ -4,12 +4,13 @@ import com.wolroys.wellbeing.dto.AuthorizationRequest;
 import com.wolroys.wellbeing.dto.UserDto;
 import com.wolroys.wellbeing.dto.UserRequestDto;
 import com.wolroys.wellbeing.util.response.Response;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserDto> getAll();
+    List<UserDto> getAll(Pageable pageable);
 
     UserDto findById(Long id);
 

@@ -12,6 +12,7 @@ import com.wolroys.wellbeing.util.mapper.UserMapper;
 import com.wolroys.wellbeing.util.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,8 +44,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDto> getAll() {
-        return userRepository.findAll()
+    public List<UserDto> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
                 .stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());

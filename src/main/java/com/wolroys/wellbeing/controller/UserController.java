@@ -7,6 +7,9 @@ import com.wolroys.wellbeing.service.UserService;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,22 +26,23 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWithList<UserDto>> findAllEvents() {
-        return ResponseEntity.ok(new ResponseWithList<UserDto>().foundWithPages(userService.getAll()));
+    public ResponseEntity<ResponseWithList<UserDto>> findAll(@PageableDefault(sort = "{email}",
+            direction = Sort.Direction.ASC, size = 8) Pageable pageable) {
+        return ResponseEntity.ok(new ResponseWithList<UserDto>().foundWithPages(userService.getAll(pageable)));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Response<UserDto>> createEvent(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<Response<UserDto>> create(@RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.ok(new Response<UserDto>().created(userService.register(userRequestDto)));
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Response<UserDto>> editEvent(@PathVariable Long id, @RequestBody UserRequestDto updatedUser) {
+    public ResponseEntity<Response<UserDto>> edit(@PathVariable Long id, @RequestBody UserRequestDto updatedUser) {
         return ResponseEntity.ok(new Response<UserDto>().updated(userService.edit(id, updatedUser)));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Response<UserDto>> deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<Response<UserDto>> delete(@PathVariable Long id) {
         return ResponseEntity.ok(new Response<UserDto>().deleted(userService.deleteById(id)));
     }
 
