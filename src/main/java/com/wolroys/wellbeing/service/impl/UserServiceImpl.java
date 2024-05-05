@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDto> getAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
+    public List<UserDto> findAll(Pageable pageable, String name) {
+        return userRepository.findAll(pageable, name)
                 .stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());

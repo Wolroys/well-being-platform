@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface EventService {
 
-    List<EventDto> getAll(Pageable pageable);
+    List<EventDto> findAll(Pageable pageable, String title);
 
-    EventDto getById(Long id);
+    EventDto findById(Long id);
 
     EventDto create(EventRequestDto eventRequestDto);
 

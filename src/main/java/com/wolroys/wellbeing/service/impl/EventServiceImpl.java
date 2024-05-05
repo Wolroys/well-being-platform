@@ -25,15 +25,15 @@ public class EventServiceImpl implements EventService {
     private final EventMapper eventMapper;
 
     @Override
-    public List<EventDto> getAll(Pageable pageable) {
-        return eventRepository.findAll(pageable)
+    public List<EventDto> findAll(Pageable pageable, String title) {
+        return eventRepository.findAll(pageable, title)
                 .stream()
                 .map(eventMapper::toDto)
                 .toList();
     }
 
     @Override
-    public EventDto getById(Long id) {
+    public EventDto findById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Event with id - {} wasn't found", id);

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserDto> getAll(Pageable pageable);
+    List<UserDto> findAll(Pageable pageable, String name);
 
     UserDto findById(Long id);
 

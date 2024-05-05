@@ -20,14 +20,15 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<ResponseWithList<EventDto>> findAllEvents(@PageableDefault(sort = {"email"},
-            direction = Sort.Direction.ASC, size = 8) Pageable pageable) {
-        return ResponseEntity.ok(new ResponseWithList<EventDto>().foundWithPages(eventService.getAll(pageable)));
+    public ResponseEntity<ResponseWithList<EventDto>> findAllEvents(@PageableDefault(sort = {"date"},
+            direction = Sort.Direction.ASC, size = 8) Pageable pageable,
+                                                                    @RequestParam(required = false) String title) {
+        return ResponseEntity.ok(new ResponseWithList<EventDto>().foundWithPages(eventService.findAll(pageable, title)));
     }
 
     @GetMapping("/info")
     public ResponseEntity<Response<EventDto>> findById(@RequestParam Long eventId) {
-        return ResponseEntity.ok(new Response<EventDto>().found(eventService.getById(eventId)));
+        return ResponseEntity.ok(new Response<EventDto>().found(eventService.findById(eventId)));
     }
 
     @PostMapping("/add")
@@ -47,6 +48,6 @@ public class EventController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Response<EventDto>> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(new Response<EventDto>().found(eventService.getById(id)));
+        return ResponseEntity.ok(new Response<EventDto>().found(eventService.findById(id)));
     }
 }

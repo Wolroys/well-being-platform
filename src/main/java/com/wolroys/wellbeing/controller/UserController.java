@@ -26,9 +26,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseWithList<UserDto>> findAll(@PageableDefault(sort = "{email}",
-            direction = Sort.Direction.ASC, size = 8) Pageable pageable) {
-        return ResponseEntity.ok(new ResponseWithList<UserDto>().foundWithPages(userService.getAll(pageable)));
+    public ResponseEntity<ResponseWithList<UserDto>> findAll(@PageableDefault(sort = {"email"},
+            direction = Sort.Direction.ASC, size = 8) Pageable pageable,
+                                                             @RequestParam(required = false) String name) {
+        return ResponseEntity.ok(new ResponseWithList<UserDto>().foundWithPages(userService.findAll(pageable, name)));
     }
 
     @PostMapping("/register")
