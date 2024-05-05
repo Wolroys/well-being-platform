@@ -6,6 +6,9 @@ import com.wolroys.wellbeing.service.EventService;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +20,14 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<ResponseWithList<EventDto>> findAllEvents() {
-        return ResponseEntity.ok(new ResponseWithList<EventDto>().foundWithPages(eventService.getAll()));
+    public ResponseEntity<ResponseWithList<EventDto>> findAllEvents(@PageableDefault(sort = {"email"},
+            direction = Sort.Direction.ASC, size = 8) Pageable pageable) {
+        return ResponseEntity.ok(new ResponseWithList<EventDto>().foundWithPages(eventService.getAll(pageable)));
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<Response<EventDto>> findById(@RequestParam Long eventId) {
+        return ResponseEntity.ok(new Response<EventDto>().found(eventService.getById(eventId)));
     }
 
     @PostMapping("/add")
