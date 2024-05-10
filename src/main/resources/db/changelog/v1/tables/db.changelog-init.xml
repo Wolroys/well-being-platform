@@ -36,8 +36,9 @@
             </column>
             <column name="date" type="timestamp">
             </column>
-            <column name="speaker" type="varchar(256)">
-                <constraints nullable="false"/>
+            <column name="speaker_id" type="bigint">
+                <constraints referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="event_user_fk"/>
             </column>
             <column name="link" type="varchar(512)">
             </column>
@@ -170,6 +171,27 @@
             </column>
             <column name="answer" type="jsonb">
                 <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_column_is_active" author="Aleksey">
+        <addColumn tableName="users">
+            <column name="active" type="boolean" defaultValueBoolean="false"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="create_table_confirm_token" author="Aleksey">
+        <createTable tableName="confirmation_token">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_date" type="timestamp(6) without time zone"/>
+            <column name="token" type="varchar(150)"/>
+            <column name="account_id" type="bigint">
+                <constraints referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="token_user_fk"/>
             </column>
         </createTable>
     </changeSet>

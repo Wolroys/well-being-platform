@@ -20,24 +20,41 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
 
     private final JwtTokenFilter jwtTokenFilter;
 
+//    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+//    private String clientId;
+//
+//    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+//    private String clientSecret;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         return http.csrf(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers("/user/login").permitAll()
                         .requestMatchers("/user/register").permitAll()
+                        .requestMatchers("/user/**").permitAll()
 
                         .requestMatchers("/event").permitAll()
                         .requestMatchers("/event/info").permitAll()
 
+
                         .requestMatchers("/swagger-ui/**", "v3/api-docs/**").permitAll()
 
                         .anyRequest().authenticated())
+
+//                .oauth2Login(customizer -> customizer
+//                        .clientRegistrationRepository(clientRegistrationRepository()))
+
                 .httpBasic(AbstractHttpConfigurer::disable)
+
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+
                 .build();
     }
 
@@ -55,4 +72,28 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        return new InMemoryClientRegistrationRepository(clientRegistration());
+//    }
+
+//    private ClientRegistration clientRegistration() {
+//        return ClientRegistration.withRegistrationId("google")
+//                .clientId(clientId)
+//                .clientSecret(clientSecret)
+//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .redirectUri()
+
+//        registrations.add(ClientRegistration.withRegistrationId("github")
+//                .clientId(githubClientId)
+//                .clientSecret(githubClientSecret)
+//                .authorizationUri("https://github.com/login/oauth/authorize")
+//                .tokenUri("https://github.com/login/oauth/access_token")
+//                .userInfoUri("https://api.github.com/user")
+//                .userNameAttributeName("login")
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .redirectUri("http://localhost:8080/user")
+//                .build());
 }

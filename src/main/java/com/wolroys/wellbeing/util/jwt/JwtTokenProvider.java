@@ -34,8 +34,6 @@ public class JwtTokenProvider {
     private String secret;
     @Value("${jwt.token.expired}")
     private long timeMs;
-    @Value("${jwt.refreshToken.expired}")
-    private long refreshTimeMs;
 
     public boolean validateToken(String token) {
         try {

@@ -1,34 +1,38 @@
-package com.wolroys.wellbeing.entity;
+package com.wolroys.wellbeing.domain.event.entity;
 
-import com.wolroys.wellbeing.domain.event.entity.Event;
 import com.wolroys.wellbeing.domain.user.entity.User;
+import com.wolroys.wellbeing.entity.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
-public class Question {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @Column(nullable = false)
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String description;
+
+    @Column
+    private LocalDateTime date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "speaker_id")
+    private User speaker;
 
     @Column(nullable = false)
-    private String text;
+    private String link;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
