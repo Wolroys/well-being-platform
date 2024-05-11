@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
+
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -22,5 +24,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> buildResponseEntity(Violation violation) {
         return new ResponseEntity<>(violation, violation.getStatus());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Object> handleAccessException(AccessDeniedException e) {
+        Violation violation = new Violation(HttpStatus.FORBIDDEN);
+        violation.setMessage("Access denied");
+        return buildResponseEntity(violation);
     }
 }

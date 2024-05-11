@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SpringSecurityConfig implements WebMvcConfigurer {
 
     private final JwtTokenFilter jwtTokenFilter;
+    private final AuthenticationEntryPointHandler accessDeniedHandler;
 
 //    @Value("${spring.security.oauth2.client.registration.google.client-id}")
 //    private String clientId;
@@ -50,7 +51,10 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
 
                 .httpBasic(AbstractHttpConfigurer::disable)
 
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
+                .exceptionHandling(handler -> handler
+                        .authenticationEntryPoint(accessDeniedHandler))
+
+                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
