@@ -2,6 +2,7 @@ package com.wolroys.wellbeing.domain.user.service;
 
 import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationToken;
 import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationTokenRepository;
+import com.wolroys.wellbeing.domain.exception.UserNotFoundException;
 import com.wolroys.wellbeing.domain.user.UserMapper;
 import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.*;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("User with id - {} wasn't found", id);
-                    return new IllegalArgumentException("User doesn't exist");
+                    return new UserNotFoundException("User doesn't exist");
                 });
 
         return userMapper.toDto(user);
@@ -80,7 +81,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("User with id - {} wasn't found", id);
-                    return new IllegalArgumentException("This user doesn't exist");
+                    return new UserNotFoundException("This user doesn't exist");
                 });
 
         userRepository.deleteById(id);
@@ -139,8 +140,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("Email wasn't found"));
 
         if (!user.isActive()) {
-            log.error("User account with email {} not enabled", user.getEmail());
-            throw new AccessDeniedException("account not enabled");
+            log.error("User account with email {} not activated", user.getEmail());
+            throw new AccessDeniedException("account not activated");
         }
 
         if (authenticate.isAuthenticated()) {

@@ -35,7 +35,7 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
 
                         .requestMatchers("/user/login").permitAll()
                         .requestMatchers("/user/register").permitAll()
-                        .requestMatchers("/user/**").permitAll()
+                        .requestMatchers("/user/confirm-email").permitAll()
 
                         .requestMatchers("/event").permitAll()
                         .requestMatchers("/event/info").permitAll()
