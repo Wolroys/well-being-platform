@@ -1,7 +1,6 @@
 package com.wolroys.wellbeing.domain.event.entity;
 
 import com.wolroys.wellbeing.domain.user.entity.User;
-import com.wolroys.wellbeing.entity.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

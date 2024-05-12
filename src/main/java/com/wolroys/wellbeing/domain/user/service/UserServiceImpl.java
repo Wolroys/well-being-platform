@@ -31,7 +31,6 @@ import org.thymeleaf.context.Context;
 
 import java.io.File;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -61,7 +60,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable, name)
                 .stream()
                 .map(userMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -97,8 +96,8 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("Event with id - {} wasn't found", id);
-                    return new IllegalArgumentException("This event doesn't exist");
+                    log.error("User with id - {} wasn't found", id);
+                    return new UserNotFoundException("This user doesn't exist");
                 });
 
         if (StringUtils.hasText(updatedUser.getName())) {
@@ -114,7 +113,7 @@ public class UserServiceImpl implements UserService {
 
         if (isUserEdited) {
             user = userRepository.save(user);
-            log.info("Event has been edited");
+            log.info("User has been edited");
         }
 
 
@@ -157,6 +156,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto register(UserRequestDto userRequestDto) {
+
+        if (userRepository.existsUserByEmail(userRequestDto.getEmail())) {
+            log.error("This email already taken");
+            throw new IllegalArgumentException("This email already taken");
+        }
+
         User user = userMapper.toEntity(userRequestDto);
 
         user.setRole(Role.USER);

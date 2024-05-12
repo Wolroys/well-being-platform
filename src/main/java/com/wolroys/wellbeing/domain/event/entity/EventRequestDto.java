@@ -1,6 +1,5 @@
 package com.wolroys.wellbeing.domain.event.entity;
 
-import com.wolroys.wellbeing.entity.Status;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
