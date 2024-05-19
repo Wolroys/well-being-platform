@@ -2,6 +2,7 @@ package com.wolroys.wellbeing.domain.user.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,14 +20,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+
     private String name;
 
+    @NotEmpty(message = "The last name must not be empty")
+    private String lastName;
+
     @Email
-    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @NotEmpty(message = "The password must not be empty")
     private String password;
 
     @Column(nullable = false)

@@ -6,11 +6,13 @@ import com.wolroys.wellbeing.domain.user.entity.UserRequestDto;
 import com.wolroys.wellbeing.domain.user.service.UserService;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +23,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<Response<UserDto>> login(@RequestBody AuthorizationRequest authorizationRequest) {
+    public ResponseEntity<Response<UserDto>> login(@Validated @RequestBody AuthorizationRequest authorizationRequest) {
         return ResponseEntity.ok(userService.login(authorizationRequest));
     }
 
@@ -33,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Response<UserDto>> create(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<Response<UserDto>> register(@Valid @RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.ok(new Response<UserDto>().created(userService.register(userRequestDto)));
     }
 

@@ -8,6 +8,7 @@ spring:
   liquibase:
     change-log: db/changelog/changelog-master.xml
 
+
   security:
     oauth2:
       client:
@@ -33,6 +34,8 @@ spring:
           connectiontimeout: 25000
           timeout: 25000
           writetimeout: 25000
+  kafka:
+    bootstrap-servers: localhost:9092
 jwt:
   token:
     secret: jwtsecretsecretsecretsecretsecretsecretsecretsecret

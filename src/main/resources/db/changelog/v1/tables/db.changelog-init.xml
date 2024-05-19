@@ -12,6 +12,9 @@
             <column name="name" type="varchar(256)">
                 <constraints nullable="false"/>
             </column>
+            <column name="last_name" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
             <column name="email" type="varchar(256)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -192,6 +195,30 @@
             <column name="account_id" type="bigint">
                 <constraints referencedTableName="users" referencedColumnNames="id"
                              foreignKeyName="token_user_fk"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table_notification_type" author="Aleksey">
+        <createTable tableName="notification_type">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(256)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table_acc_notification" author="Aleksey">
+        <createTable tableName="acc_notification">
+            <column name="user_id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_id_name"
+                             referencedTableName="users" referencedColumnNames="id"
+                             foreignKeyName="fk_acc_notification_users"/>
+            </column>
+            <column name="notification_id" type="bigint">
+                <constraints primaryKey="true" primaryKeyName="pk_id_name"
+                             referencedTableName="notification_type" referencedColumnNames="id"
+                             foreignKeyName="fk_na_nt"/>
             </column>
         </createTable>
     </changeSet>
