@@ -37,4 +37,8 @@ public class User {
     private Role role;
 
     private boolean active;
+
+    public String getFullName() {
+        return name + " " + lastName;
+    }
 }

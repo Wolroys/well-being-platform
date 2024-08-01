@@ -1,4 +1,4 @@
-package com.wolroys.wellbeing.util.mail;
+package com.wolroys.wellbeing.domain.notification;
 
 import com.wolroys.wellbeing.domain.exception.EmailSendingException;
 import jakarta.mail.MessagingException;
@@ -46,4 +46,5 @@ public class EmailServiceImpl implements EmailService {
 
         return mailMessage;
     }
+
 }

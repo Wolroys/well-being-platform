@@ -1,4 +1,4 @@
-package com.wolroys.wellbeing.util.mail;
+package com.wolroys.wellbeing.domain.notification;
 
 
 import jakarta.mail.internet.MimeMessage;
