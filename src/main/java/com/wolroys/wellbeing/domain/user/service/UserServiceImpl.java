@@ -9,17 +9,16 @@ import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.*;
 import com.wolroys.wellbeing.util.jwt.JwtTokenProvider;
 import com.wolroys.wellbeing.util.response.Response;
-import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,10 +26,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
-import java.io.File;
-import java.util.*;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -50,7 +47,7 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final TemplateEngine templateEngine;
     private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender javaMailSender;
+//    private final JavaMailSender javaMailSender;
 
     @Value("${server.location}")
     private String serverLocation;
@@ -169,15 +166,15 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         log.info("User {} was registered", user.getEmail());
 
-        sendEmailConfirmationTokenToEmail(user);
+//        sendEmailConfirmationTokenToEmail(user);
 
         return userMapper.toDto(user);
     }
 
-    @Override
-    public void sendEmailConfirmationTokenToEmail(User user) {
-        createAndSendEmailConfirmationToken(user);
-    }
+//    @Override
+//    public void sendEmailConfirmationTokenToEmail(User user) {
+//        createAndSendEmailConfirmationToken(user);
+//    }
 
     @Override
     @Transactional
@@ -203,36 +200,45 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(user);
     }
 
-    private void createAndSendEmailConfirmationToken(User user) {
-
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-
-        confirmationToken.setUser(user);
-        confirmationToken.setCreatedDate(new Date());
-        confirmationToken.setToken(UUID.randomUUID().toString());
-        confirmationTokenRepository.save(confirmationToken);
-        log.debug("Confirmation token to account {} sent", user.getEmail());
-
-        String confirmLink = serverLocation + "/account/confirm-email?token=" + confirmationToken.getToken();
-
-        MimeMessage mailMessage = javaMailSender.createMimeMessage();
-
-        ResourceBundle bundle = ResourceBundle.getBundle("lang/messages", Locale.forLanguageTag("ru"));
-
-        emailService.sendEmail(emailService.createMessage(mailMessage, user.getEmail(),
-                bundle.getString("mail.theme.confirmMail"), generateConfirmationMailHtml(confirmLink, "ru")));
-
-        log.debug("Email with confirmation token to account {} sent", user.getEmail());
+    @Override
+    public User getAccountFromSecurityContext() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        log.info("Current account is {}", email);
+        return user.getUser();
     }
 
-    private String generateConfirmationMailHtml(String confirmLink, String locale) {
-        final String templateFileName;
-        Map<String, Object> variables = new HashMap<>();
-        variables.put("confirmLink", confirmLink);
-
-        templateFileName = locale + File.separator + "confirmMail";
-        String output = templateEngine.process(templateFileName, new Context(Locale.getDefault(), variables));
-        log.debug("Confirmation email generated");
-        return output;
-    }
+//    private void createAndSendEmailConfirmationToken(User user) {
+//
+//        ConfirmationToken confirmationToken = new ConfirmationToken();
+//
+//        confirmationToken.setUser(user);
+//        confirmationToken.setCreatedDate(new Date());
+//        confirmationToken.setToken(UUID.randomUUID().toString());
+//        confirmationTokenRepository.save(confirmationToken);
+//        log.debug("Confirmation token to account {} sent", user.getEmail());
+//
+//        String confirmLink = serverLocation + "/account/confirm-email?token=" + confirmationToken.getToken();
+//
+//        MimeMessage mailMessage = javaMailSender.createMimeMessage();
+//
+//        ResourceBundle bundle = ResourceBundle.getBundle("lang/messages", Locale.forLanguageTag("ru"));
+//
+//        emailService.sendEmail(emailService.createMessage(mailMessage, user.getEmail(),
+//                bundle.getString("mail.theme.confirmMail"), generateConfirmationMailHtml(confirmLink, "ru")));
+//
+//        log.debug("Email with confirmation token to account {} sent", user.getEmail());
+//    }
+//
+//    private String generateConfirmationMailHtml(String confirmLink, String locale) {
+//        final String templateFileName;
+//        Map<String, Object> variables = new HashMap<>();
+//        variables.put("confirmLink", confirmLink);
+//
+//        templateFileName = locale + File.separator + "confirmMail";
+//        String output = templateEngine.process(templateFileName, new Context(Locale.getDefault(), variables));
+//        log.debug("Confirmation email generated");
+//        return output;
+//    }
 }

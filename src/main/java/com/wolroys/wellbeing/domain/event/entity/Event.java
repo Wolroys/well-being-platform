@@ -1,5 +1,6 @@
 package com.wolroys.wellbeing.domain.event.entity;
 
+import com.wolroys.wellbeing.domain.question.entity.Question;
 import com.wolroys.wellbeing.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -36,4 +38,7 @@ public class Event {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Status status;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
 }

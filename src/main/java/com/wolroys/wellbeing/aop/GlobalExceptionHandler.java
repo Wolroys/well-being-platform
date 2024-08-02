@@ -32,7 +32,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(violation);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleConstraintViolation(RuntimeException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> onConstraintValidationException(ConstraintViolationException e) {
         final List<Violation> violations = e.getConstraintViolations().stream()
                 .map(

@@ -23,7 +23,9 @@ public interface UserService {
 
     UserDto register(UserRequestDto userRequestDto);
 
-    void sendEmailConfirmationTokenToEmail(User user);
+//    void sendEmailConfirmationTokenToEmail(User user);
 
     UserDto confirmRegistrationToken(String token);
+
+    User getAccountFromSecurityContext();
 }

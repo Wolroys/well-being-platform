@@ -1,5 +1,6 @@
 package com.wolroys.wellbeing.domain.user.entity;
 
+import com.wolroys.wellbeing.domain.question.entity.Question;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -37,6 +40,9 @@ public class User {
     private Role role;
 
     private boolean active;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questions;
 
     public String getFullName() {
         return name + " " + lastName;

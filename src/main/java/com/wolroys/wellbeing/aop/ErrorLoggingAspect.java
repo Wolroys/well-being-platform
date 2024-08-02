@@ -13,6 +13,6 @@ public class ErrorLoggingAspect {
 
     @AfterThrowing(pointcut = "@annotation(org.springframework.transaction.annotation.Transactional)", throwing = "error")
     public void doAfterThrowing(JoinPoint point, Throwable error) {
-        log.error("Exception in method " + point.getSignature().getName() + "; Error: " + error);
+        log.error("Exception in method {}; Error: {}", point.getSignature().getName(), error.getMessage());
     }
 }

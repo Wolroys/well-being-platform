@@ -19,23 +19,23 @@ spring:
           google:
             client-id: ${googleClientId}
             client-secret: ${googleClientSecret}
-  mail:
-    host: smtp.yandex.com
-    port: 587
-    username: ${mail_username}
-    password: ${mail_password}
-    personal: ${mail_personal}
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-          auth: true
-          connectiontimeout: 25000
-          timeout: 25000
-          writetimeout: 25000
-  kafka:
-    bootstrap-servers: localhost:9092
+#  mail:
+#    host: smtp.yandex.com
+#    port: 587
+#    username: ${mail_username}
+#    password: ${mail_password}
+#    personal: ${mail_personal}
+#    properties:
+#      mail:
+#        smtp:
+#          starttls:
+#            enable: true
+#          auth: true
+#          connectiontimeout: 25000
+#          timeout: 25000
+#          writetimeout: 25000
+#  kafka:
+#    bootstrap-servers: localhost:9092
 jwt:
   token:
     secret: jwtsecretsecretsecretsecretsecretsecretsecretsecret
