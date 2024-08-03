@@ -1,4 +1,4 @@
-package com.wolroys.wellbeing.domain.question;
+package com.wolroys.wellbeing.domain.question.controller;
 
 import com.wolroys.wellbeing.domain.question.entity.QuestionDto;
 import com.wolroys.wellbeing.domain.question.entity.QuestionRequest;
@@ -22,7 +22,17 @@ public class QuestionController {
     }
 
     @PostMapping("/ask")
-    public ResponseEntity<Response<QuestionDto>> create(QuestionRequest request) {
+    public ResponseEntity<Response<QuestionDto>> create(@RequestBody QuestionRequest request) {
         return ResponseEntity.ok(new Response<QuestionDto>().created(questionService.create(request)));
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<Response<QuestionDto>> update(@RequestBody QuestionRequest request) {
+        return ResponseEntity.ok(new Response<QuestionDto>().updated(questionService.edit(request)));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Response<QuestionDto>> delete(@RequestParam Long id) {
+        return ResponseEntity.ok(new Response<QuestionDto>().deleted(questionService.delete(id)));
     }
 }

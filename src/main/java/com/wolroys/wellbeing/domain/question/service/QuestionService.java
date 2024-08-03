@@ -15,5 +15,5 @@ public interface QuestionService {
 
     QuestionDto edit(QuestionRequest request);
 
-    void delete(Long id);
+    QuestionDto delete(Long id);
 }

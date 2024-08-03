@@ -47,8 +47,8 @@ public class JwtTokenProvider {
         }
     }
 
-    public String generateToken(UserDetails userDetails, String email) { //TODO сделать по почте и username
-        Map<String, Object> claims = new HashMap<>();           //TODO сделать username без @
+    public String generateToken(UserDetails userDetails, String email) {
+        Map<String, Object> claims = new HashMap<>();
         List<String> roles = userDetails.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)

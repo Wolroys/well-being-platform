@@ -2,6 +2,7 @@ package com.wolroys.wellbeing.domain.question.service;
 
 import com.wolroys.wellbeing.domain.event.EventRepository;
 import com.wolroys.wellbeing.domain.event.entity.Event;
+import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.domain.question.entity.Question;
 import com.wolroys.wellbeing.domain.question.entity.QuestionDto;
 import com.wolroys.wellbeing.domain.question.entity.QuestionRequest;
@@ -82,12 +83,37 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     @Transactional
     public QuestionDto edit(QuestionRequest request) {
-        return null;
+
+        Question existQuestion = questionRepository.findById(request.getId())
+                .orElseThrow(() -> {
+                    log.error("Question with id - {} not found", request.getId());
+                    return new EntityNotFoundException("Question with id " + request.getId() + " not found");
+                });
+
+        if (StringUtils.hasText(request.getText())) {
+            existQuestion.setText(request.getText());
+        }
+
+        if (request.getStatus() != null) {
+            existQuestion.setStatus(request.getStatus());
+        }
+
+        Question updatedQuestion = questionRepository.save(existQuestion);
+
+        return questionMapper.toDto(updatedQuestion);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public QuestionDto delete(Long id) {
+        Question question = questionRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("Question with id {} not found", id);
+                    return new EntityNotFoundException("Question with id " + id + " not found");
+                });
 
+        questionRepository.deleteById(id);
+
+        return questionMapper.toDto(question);
     }
 }

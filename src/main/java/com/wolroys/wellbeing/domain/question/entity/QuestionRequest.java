@@ -7,7 +7,11 @@ import lombok.Setter;
 @Setter
 public class QuestionRequest {
 
+    private Long id;
+
     private String text;
 
     private Long eventId;
+
+    private QuestionStatus status;
 }

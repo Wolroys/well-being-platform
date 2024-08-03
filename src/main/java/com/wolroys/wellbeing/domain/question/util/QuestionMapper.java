@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface QuestionMapper {
 
-    @Mapping(source = "java(user.getFullName())", target = "author")
+    @Mapping(expression = "java(question.getUser().getFullName())", target = "author")
     @Mapping(source = "user.email", target = "authorEmail")
     QuestionDto toDto(Question question);
 }
