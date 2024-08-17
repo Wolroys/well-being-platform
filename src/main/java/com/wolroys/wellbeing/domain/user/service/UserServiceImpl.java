@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
 
         if (!user.isActive()) {
             log.error("User account with email {} not activated", user.getEmail());
-            throw new AccountIsNotActivated("account not activated");
+            throw new AccountIsNotActivated("account is not activated");
         }
 
         if (authenticate.isAuthenticated()) {

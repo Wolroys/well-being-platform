@@ -1,5 +1,6 @@
 package com.wolroys.wellbeing.aop;
 
+import com.wolroys.wellbeing.domain.exception.AccountIsNotActivated;
 import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.util.response.Violation;
 import jakarta.validation.ConstraintViolationException;
@@ -32,9 +33,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(violation);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({IllegalArgumentException.class, AccountIsNotActivated.class})
     public ResponseEntity<Object> handleConstraintViolation(RuntimeException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        Violation violation = new Violation(HttpStatus.BAD_REQUEST);
+        violation.setMessage(e.getMessage());
+        return buildResponseEntity(violation);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
