@@ -51,8 +51,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 //    private final JavaMailSender javaMailSender;
 
-    @Value("${server.location}")
-    private String serverLocation;
 
     @Override
     public List<UserDto> findAll(Pageable pageable, String name) {

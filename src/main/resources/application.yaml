@@ -40,6 +40,3 @@ jwt:
   token:
     secret: jwtsecretsecretsecretsecretsecretsecretsecretsecret
     expired: 1209600000
-
-server:
-  location: ${front_address}

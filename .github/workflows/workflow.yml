@@ -2,6 +2,7 @@ name: CI workflow
 
 on:
   push:
+    branches: ["master"]
   pull_request:
     branches: [ "master" ]
 
@@ -14,16 +15,17 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '21'
-        distribution: 'openjdk-21'
+        distribution: 'corretto'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
-      
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+      run: mvn -B clean compile test --file pom.xml
 
-      
-
-    - name: Analyze Code Security
-      uses: google-github-actions/analyze-code-security-scc@v0.1.0
+    - name: Test Coverage
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        verbose: true
+        flags: unittests
+        files: ./target/site/jacoco/jacoco.xml
+        
           
