@@ -27,10 +27,5 @@ jobs:
         verbose: true
         flags: unittests
         files: ./target/site/jacoco/jacoco.xml
-        comment_mode: "changes"
         
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@v2
-      with:
-        token: ${{ secrets.SONAR_TOKEN }}
           
