@@ -1,0 +1,29 @@
+name: CI workflow
+
+on:
+  push:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'openjdk-21'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
+    - name: Update dependency graph
+      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+
+      
+
+    - name: Analyze Code Security
+      uses: google-github-actions/analyze-code-security-scc@v0.1.0
+          
