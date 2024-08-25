@@ -239,7 +239,6 @@ class UserServiceTest {
         });
 
         UserServiceImpl userServiceSpy = spy(userService);
-        doNothing().when(userServiceSpy).sendEmailConfirmationTokenToEmail(any(User.class));
 
         //when
         UserDto result = userServiceSpy.register(userRequestDto);

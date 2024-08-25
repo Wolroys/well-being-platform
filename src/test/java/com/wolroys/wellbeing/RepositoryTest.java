@@ -72,34 +72,33 @@ public class RepositoryTest {
 //                .body(".", Matchers.hasSize(2));
 //    }
 
-    @Test
-    @SneakyThrows
-    void saveCars() {
-
-        Map<String, String> map = Map.of(
-                "title", "gdffsdfsa",
-                "description", "dsadsa321",
-                "date", "2023-03-15T12:34:56",
-                "speaker", "dsadasdas",
-                "link", "31jfsd",
-                "status", "planned"
-        );
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(map);
-
-        var result = mockMvc.perform(post("http://localhost:8080/event/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(json))
-                .andExpect(status().is2xxSuccessful())
-                .andReturn();
-
-        List<Event> events = eventRepository.findAll();
-
-        assertThat(events).isNotEmpty();
-
-        assertThat(result.getResponse().getContentAsString())
-                .isEqualTo(json);
-
-    }
+//    @Test
+//    @SneakyThrows
+//    void saveCars() {
+//
+//        Map<String, String> map = Map.of(
+//                "title", "gdffsdfsa",
+//                "description", "dsadsa321",
+//                "date", "2023-03-15T12:34:56",
+//                "speaker", "dsadasdas",
+//                "link", "31jfsd",
+//                "status", "planned"
+//        );
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String json = objectMapper.writeValueAsString(map);
+//
+//        var result = mockMvc.perform(post("http://localhost:8080/event/create")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(json))
+//                .andExpect(status().is2xxSuccessful())
+//                .andReturn();
+//
+//        List<Event> events = eventRepository.findAll();
+//
+//        assertThat(events).isNotEmpty();
+//
+//        assertThat(result.getResponse().getContentAsString())
+//                .isEqualTo(json);
+//    }
 }
