@@ -222,4 +222,14 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="create_table_suggestion" author="Aleksey">
+        <createTable tableName="suggestion">
+            <column name="id" type="bigserial"/>
+            <column name="suggestion_speaker" type="varchar(255)"/>
+            <column name="comment" type="text"/>
+            <column name="is_approved" type="boolean"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
