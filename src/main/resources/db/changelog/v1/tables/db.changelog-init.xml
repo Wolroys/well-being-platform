@@ -229,6 +229,7 @@
             <column name="suggestion_speaker" type="varchar(255)"/>
             <column name="comment" type="text"/>
             <column name="is_approved" type="boolean"/>
+            <column name="theme" type="varchar(100)"/>
         </createTable>
     </changeSet>
 
