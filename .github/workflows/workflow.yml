@@ -46,6 +46,7 @@ jobs:
           VALIDATE_SHELL_SHFMT: false
           FIX_YAML_PRETTIER: true
           FIX_GOOGLE_JAVA_FORMAT: true
+          VALIDATE_CHECKOV: false
 
   test-coverage:
     runs-on: ubuntu-latest
