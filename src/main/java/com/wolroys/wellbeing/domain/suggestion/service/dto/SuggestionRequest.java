@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 public class SuggestionRequest {
 
+    private Long id;
+
     private String speakerName;
 
     private String description;
