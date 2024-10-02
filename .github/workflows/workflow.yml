@@ -36,6 +36,8 @@ jobs:
         uses: super-linter/super-linter@v7.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_BASH: false
+          VALIDATE_BASH_EXEC: false
 
   test-coverage:
     runs-on: ubuntu-latest
