@@ -45,13 +45,13 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public ResponseWithList<Suggestion> getAllSuggestions(SuggestionRequest request) { //TODO Добавить пагинацию
+    public ResponseWithList<Suggestion> getAllSuggestions() { //TODO Добавить пагинацию
         return new ResponseWithList<Suggestion>().found(suggestionRepository.findAll());
     }
 
     @Override
-    public Response<Suggestion> getSuggestion(SuggestionRequest request) {
-        Suggestion suggestion = findSuggestionById(request.getId());
+    public Response<Suggestion> getSuggestion(Long id) {
+        Suggestion suggestion = findSuggestionById(id);
 
         return new Response<Suggestion>().found(suggestion);
     }
@@ -73,24 +73,24 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public Response<Suggestion> deleteSuggestion(SuggestionRequest request) {
-        Suggestion suggestion = findSuggestionById(request.getId());
+    public Response<Suggestion> deleteSuggestion(Long id) {
+        Suggestion suggestion = findSuggestionById(id);
         suggestionRepository.delete(suggestion);
 
         return new Response<Suggestion>().deleted(suggestion);
     }
 
     @Override
-    public Response<Suggestion> approveSuggestion(SuggestionRequest request) {
-        Suggestion suggestion = findSuggestionById(request.getId());
+    public Response<Suggestion> approveSuggestion(Long id) {
+        Suggestion suggestion = findSuggestionById(id);
         suggestion.setIsApproved(true);
 
         return new Response<Suggestion>().updated(suggestion);
     }
 
     @Override
-    public Response<Suggestion> rejectSuggestion(SuggestionRequest request) {
-        Suggestion suggestion = findSuggestionById(request.getId());
+    public Response<Suggestion> rejectSuggestion(Long id) {
+        Suggestion suggestion = findSuggestionById(id);
         suggestion.setIsApproved(false);
 
         return new Response<Suggestion>().updated(suggestion);

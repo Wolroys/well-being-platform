@@ -9,15 +9,15 @@ public interface SuggestionService {
 
     Response<Suggestion> suggestSpeaker(SuggestionRequest request);
 
-    ResponseWithList<Suggestion> getAllSuggestions(SuggestionRequest request);
+    ResponseWithList<Suggestion> getAllSuggestions();
 
-    Response<Suggestion> getSuggestion(SuggestionRequest request);
+    Response<Suggestion> getSuggestion(Long id);
 
     Response<Suggestion> editSuggestion(SuggestionRequest request);
 
-    Response<Suggestion> deleteSuggestion(SuggestionRequest request);
+    Response<Suggestion> deleteSuggestion(Long id);
 
-    Response<Suggestion> approveSuggestion(SuggestionRequest request);
+    Response<Suggestion> approveSuggestion(Long id);
 
-    Response<Suggestion> rejectSuggestion(SuggestionRequest request);
+    Response<Suggestion> rejectSuggestion(Long id);
 }
