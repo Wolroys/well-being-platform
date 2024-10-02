@@ -38,6 +38,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_BASH: false
           VALIDATE_BASH_EXEC: false
+          VALIDATE_HTML_PRETTIER: false
+          VALIDATE_POWERSHELL: false
+          FIX_YAML_PRETTIE: true
+          FIX_GOOGLE_JAVA_FORMAT: true
 
   test-coverage:
     runs-on: ubuntu-latest
