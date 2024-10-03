@@ -5,6 +5,7 @@ spring:
     username: postgres
     password: 9567
 
+
   liquibase:
     change-log: db/changelog/changelog-master.xml
 
@@ -19,6 +20,17 @@ spring:
           google:
             client-id: ${googleClientId}
             client-secret: ${googleClientSecret}
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations:
+        classpath:/static/
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: /**
 #  mail:
 #    host: smtp.yandex.com
 #    port: 587

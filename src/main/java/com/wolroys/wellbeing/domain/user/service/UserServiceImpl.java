@@ -5,7 +5,6 @@ import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationTokenRepositor
 import com.wolroys.wellbeing.domain.exception.AccountIsNotActivated;
 import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.domain.exception.UserNotFoundException;
-import com.wolroys.wellbeing.domain.notification.EmailService;
 import com.wolroys.wellbeing.domain.user.UserMapper;
 import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.*;
@@ -13,7 +12,6 @@ import com.wolroys.wellbeing.util.jwt.JwtTokenProvider;
 import com.wolroys.wellbeing.util.response.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +39,6 @@ public class UserServiceImpl implements UserService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
     private final UserDetailsService userDetailsService;
-    private final EmailService emailService;
 
     private final UserMapper userMapper;
 
@@ -49,7 +46,6 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final TemplateEngine templateEngine;
     private final PasswordEncoder passwordEncoder;
-//    private final JavaMailSender javaMailSender;
 
 
     @Override
@@ -166,15 +162,8 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         log.info("User {} was registered", user.getEmail());
 
-//        sendEmailConfirmationTokenToEmail(user);
-
         return userMapper.toDto(user);
     }
-
-//    @Override
-//    public void sendEmailConfirmationTokenToEmail(User user) {
-//        createAndSendEmailConfirmationToken(user);
-//    }
 
     @Override
     @Transactional
@@ -208,37 +197,4 @@ public class UserServiceImpl implements UserService {
         log.info("Current account is {}", email);
         return user.getUser();
     }
-
-//    private void createAndSendEmailConfirmationToken(User user) {
-//
-//        ConfirmationToken confirmationToken = new ConfirmationToken();
-//
-//        confirmationToken.setUser(user);
-//        confirmationToken.setCreatedDate(new Date());
-//        confirmationToken.setToken(UUID.randomUUID().toString());
-//        confirmationTokenRepository.save(confirmationToken);
-//        log.debug("Confirmation token to account {} sent", user.getEmail());
-//
-//        String confirmLink = serverLocation + "/account/confirm-email?token=" + confirmationToken.getToken();
-//
-//        MimeMessage mailMessage = javaMailSender.createMimeMessage();
-//
-//        ResourceBundle bundle = ResourceBundle.getBundle("lang/messages", Locale.forLanguageTag("ru"));
-//
-//        emailService.sendEmail(emailService.createMessage(mailMessage, user.getEmail(),
-//                bundle.getString("mail.theme.confirmMail"), generateConfirmationMailHtml(confirmLink, "ru")));
-//
-//        log.debug("Email with confirmation token to account {} sent", user.getEmail());
-//    }
-//
-//    private String generateConfirmationMailHtml(String confirmLink, String locale) {
-//        final String templateFileName;
-//        Map<String, Object> variables = new HashMap<>();
-//        variables.put("confirmLink", confirmLink);
-//
-//        templateFileName = locale + File.separator + "confirmMail";
-//        String output = templateEngine.process(templateFileName, new Context(Locale.getDefault(), variables));
-//        log.debug("Confirmation email generated");
-//        return output;
-//    }
 }

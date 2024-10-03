@@ -6,8 +6,11 @@ import com.wolroys.wellbeing.domain.suggestion.service.dto.SuggestionRequest;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -17,8 +20,8 @@ public class SuggestionController {
     private final SuggestionService suggestionService;
 
     @GetMapping
-    public ResponseEntity<ResponseWithList<Suggestion>> getAllSuggestions() {
-        return ResponseEntity.ok(suggestionService.getAllSuggestions());
+    public ResponseEntity<ResponseWithList<Suggestion>> getAllSuggestions(@PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(suggestionService.getAllSuggestions(pageable));
     }
 
     @GetMapping("/{id}")

@@ -8,6 +8,8 @@ import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -45,8 +47,9 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
-    public ResponseWithList<Suggestion> getAllSuggestions() { //TODO Добавить пагинацию
-        return new ResponseWithList<Suggestion>().found(suggestionRepository.findAll());
+    public ResponseWithList<Suggestion> getAllSuggestions(Pageable pageable) {
+        Page<Suggestion> suggestionPage = suggestionRepository.findAll(pageable);
+        return new ResponseWithList<Suggestion>().found(suggestionPage.getContent());
     }
 
     @Override
