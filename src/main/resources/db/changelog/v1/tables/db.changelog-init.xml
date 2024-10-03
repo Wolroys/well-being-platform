@@ -142,7 +142,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="v1-8" author="">
+    <changeSet id="v1-8" author="Aleksey">
 
         <createTable tableName="survey_answer">
             <column name="id" type="bigserial">
@@ -158,7 +158,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="v1-9" author="Aleksey Paslenov">
+    <changeSet id="v1-9" author="Aleksey">
 
         <createTable tableName="survey_result">
             <column name="id" type="bigserial">
@@ -229,6 +229,7 @@
             <column name="suggestion_speaker" type="varchar(255)"/>
             <column name="comment" type="text"/>
             <column name="is_approved" type="boolean"/>
+            <column name="theme" type="varchar(100)"/>
         </createTable>
     </changeSet>
 

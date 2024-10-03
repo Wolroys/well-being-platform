@@ -1,9 +1,7 @@
 package com.wolroys.wellbeing.domain.suggestion.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.wolroys.wellbeing.domain.event.entity.EventTheme;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +16,12 @@ public class Suggestion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String speaker;
+    private String suggestionSpeaker;
 
-    private String description;
+    private String comment;
 
     private Boolean isApproved;
+
+    @Enumerated(EnumType.STRING)
+    private EventTheme theme;
 }
