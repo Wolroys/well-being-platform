@@ -25,7 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.thymeleaf.TemplateEngine;
 
 import java.util.List;
 
@@ -44,7 +43,6 @@ public class UserServiceImpl implements UserService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
-    private final TemplateEngine templateEngine;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -158,7 +156,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.toEntity(userRequestDto);
 
         user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
         userRepository.save(user);
         log.info("User {} was registered", user.getEmail());
 
