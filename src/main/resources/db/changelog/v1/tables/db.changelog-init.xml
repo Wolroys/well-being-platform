@@ -35,18 +35,14 @@
             <column name="title" type="varchar(512)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar">
-            </column>
-            <column name="date" type="timestamp">
-            </column>
+            <column name="description" type="varchar"/>
+            <column name="start_date" type="timestamp"/>
+            <column name="end_date" type="timestamp"/>
             <column name="speaker_id" type="bigint">
                 <constraints referencedTableName="users" referencedColumnNames="id"
                              foreignKeyName="event_user_fk"/>
             </column>
-            <column name="link" type="varchar(512)">
-            </column>
-            <column name="status" type="varchar(64)" defaultValue="planned">
-            </column>
+            <column name="status" type="varchar(64)" defaultValue="planned"/>
         </createTable>
     </changeSet>
 
@@ -94,90 +90,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="v1-5" author="Aleksey Paslenov">
-
-        <createTable tableName="feedback">
-            <column name="id" type="bigserial">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="title" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-            <column name="text" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-            <column name="rating" type="int">
-                <constraints checkConstraint="CHECK (rating &gt;=1 AND rating &lt;= 5)"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="v1-6" author="Aleksey Paslenov">
-
-        <createTable tableName="survey">
-            <column name="id" type="bigserial">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="title" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-            <column name="description" type="varchar"/>
-            <column name="date" type="timestamp"/>
-            <column name="status" type="varchar(64)" defaultValue="planned"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="v1-7" author="Aleksey Paslenov">
-
-        <createTable tableName="survey_question">
-            <column name="id" type="bigserial">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="survey_id" type="bigint">
-                <constraints referencedTableName="survey" referencedColumnNames="id"
-                             foreignKeyName="survey_question_fk"/>
-            </column>
-            <column name="text" type="varchar"/>
-            <column name="type" type="varchar(64)" defaultValue="single choice"/>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="v1-8" author="Aleksey">
-
-        <createTable tableName="survey_answer">
-            <column name="id" type="bigserial">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="question_id" type="bigint">
-                <constraints referencedTableName="survey_question" referencedColumnNames="id"
-                             foreignKeyName="survey_question_answer_fk"/>
-            </column>
-            <column name="text" type="varchar">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-    <changeSet id="v1-9" author="Aleksey">
-
-        <createTable tableName="survey_result">
-            <column name="id" type="bigserial">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="survey_id" type="bigint">
-                <constraints referencedTableName="survey" referencedColumnNames="id"
-                             foreignKeyName="survey_result_fk"/>
-            </column>
-            <column name="user_id" type="bigint">
-                <constraints referencedTableName="users" referencedColumnNames="id"
-                             foreignKeyName="user_survey_result_fk"/>
-            </column>
-            <column name="answer" type="jsonb">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
     <changeSet id="add_column_is_active" author="Aleksey">
         <addColumn tableName="users">
             <column name="active" type="boolean" defaultValueBoolean="false"/>
@@ -199,14 +111,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="create_table_notification_type" author="Aleksey">
-        <createTable tableName="notification_type">
-            <column name="id" type="bigserial">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(256)"/>
-        </createTable>
-    </changeSet>
 
     <changeSet id="create_table_acc_notification" author="Aleksey">
         <createTable tableName="acc_notification">

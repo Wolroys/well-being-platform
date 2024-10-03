@@ -25,15 +25,13 @@ public class Event {
 
     private String description;
 
-    @Column
-    private LocalDateTime date;
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "speaker_id")
     private User speaker;
-
-    @Column(nullable = false)
-    private String link;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
