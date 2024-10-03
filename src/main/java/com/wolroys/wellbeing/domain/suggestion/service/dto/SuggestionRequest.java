@@ -10,9 +10,9 @@ public class SuggestionRequest {
 
     private Long id;
 
-    private String speakerName;
+    private String suggestionSpeaker;
 
-    private String description;
+    private String comment;
 
     private EventTheme theme;
 }

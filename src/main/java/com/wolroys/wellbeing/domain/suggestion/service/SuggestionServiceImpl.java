@@ -26,17 +26,17 @@ public class SuggestionServiceImpl implements SuggestionService {
 
         Suggestion suggestion = new Suggestion();
 
-        if (!StringUtils.hasText(request.getSpeakerName())) {
+        if (!StringUtils.hasText(request.getSuggestionSpeaker())) {
             throw new IllegalArgumentException("Speaker name cannot be empty");
         }
 
-        if (StringUtils.hasText(request.getDescription()))
-            suggestion.setDescription(request.getDescription());
+        if (StringUtils.hasText(request.getComment()))
+            suggestion.setComment(request.getComment());
 
         if (request.getTheme() != null)
             suggestion.setTheme(request.getTheme());
 
-        suggestion.setSpeaker(request.getSpeakerName());
+        suggestion.setSuggestionSpeaker(request.getSuggestionSpeaker());
         suggestion.setIsApproved(false);
 
         Suggestion createdSuggestion = suggestionRepository.save(suggestion);
@@ -57,14 +57,15 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
+    @Transactional
     public Response<Suggestion> editSuggestion(SuggestionRequest request) {
         Suggestion suggestion = findSuggestionById(request.getId());
 
-        if (StringUtils.hasText(request.getSpeakerName()))
-            suggestion.setSpeaker(request.getSpeakerName());
+        if (StringUtils.hasText(request.getSuggestionSpeaker()))
+            suggestion.setSuggestionSpeaker(request.getSuggestionSpeaker());
 
-        if (StringUtils.hasText(request.getDescription()))
-            suggestion.setDescription(request.getDescription());
+        if (StringUtils.hasText(request.getComment()))
+            suggestion.setComment(request.getComment());
 
         if (request.getTheme() != null)
             suggestion.setTheme(request.getTheme());
@@ -73,6 +74,7 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
+    @Transactional
     public Response<Suggestion> deleteSuggestion(Long id) {
         Suggestion suggestion = findSuggestionById(id);
         suggestionRepository.delete(suggestion);
@@ -81,6 +83,7 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
+    @Transactional
     public Response<Suggestion> approveSuggestion(Long id) {
         Suggestion suggestion = findSuggestionById(id);
         suggestion.setIsApproved(true);
@@ -89,6 +92,7 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     @Override
+    @Transactional
     public Response<Suggestion> rejectSuggestion(Long id) {
         Suggestion suggestion = findSuggestionById(id);
         suggestion.setIsApproved(false);

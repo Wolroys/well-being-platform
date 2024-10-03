@@ -16,9 +16,9 @@ public class Suggestion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String speaker;
+    private String suggestionSpeaker;
 
-    private String description;
+    private String comment;
 
     private Boolean isApproved;
 

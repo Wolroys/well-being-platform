@@ -26,12 +26,12 @@ public class SuggestionController {
         return ResponseEntity.ok(suggestionService.getSuggestion(id));
     }
 
-    @PatchMapping("/edit")
+    @PutMapping("/edit")
     public ResponseEntity<Response<Suggestion>> editSuggestion(@RequestBody SuggestionRequest request) {
         return ResponseEntity.ok(suggestionService.editSuggestion(request));
     }
 
-    @PostMapping("/suggest")
+    @PostMapping
     public ResponseEntity<Response<Suggestion>> suggestSpeaker(@RequestBody SuggestionRequest request) {
         return ResponseEntity.ok(suggestionService.suggestSpeaker(request));
     }
