@@ -16,11 +16,13 @@ public class EventDto {
 
     private String description;
 
-    private LocalDateTime date;
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     private UserDto speaker;
 
-    private String link;
+    private String url;
 
     private Status status;
 }

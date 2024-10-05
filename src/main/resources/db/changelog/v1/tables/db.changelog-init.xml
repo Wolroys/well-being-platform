@@ -43,6 +43,7 @@
                              foreignKeyName="event_user_fk"/>
             </column>
             <column name="status" type="varchar(64)" defaultValue="planned"/>
+            <column name="url" type="varchar"/>
         </createTable>
     </changeSet>
 
@@ -111,21 +112,6 @@
         </createTable>
     </changeSet>
 
-
-    <changeSet id="create_table_acc_notification" author="Aleksey">
-        <createTable tableName="acc_notification">
-            <column name="user_id" type="bigint">
-                <constraints primaryKey="true" primaryKeyName="pk_id_name"
-                             referencedTableName="users" referencedColumnNames="id"
-                             foreignKeyName="fk_acc_notification_users"/>
-            </column>
-            <column name="notification_id" type="bigint">
-                <constraints primaryKey="true" primaryKeyName="pk_id_name"
-                             referencedTableName="notification_type" referencedColumnNames="id"
-                             foreignKeyName="fk_na_nt"/>
-            </column>
-        </createTable>
-    </changeSet>
 
     <changeSet id="create_table_suggestion" author="Aleksey">
         <createTable tableName="suggestion">

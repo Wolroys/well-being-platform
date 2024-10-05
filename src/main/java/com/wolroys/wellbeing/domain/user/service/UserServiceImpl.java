@@ -2,12 +2,12 @@ package com.wolroys.wellbeing.domain.user.service;
 
 import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationToken;
 import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationTokenRepository;
-import com.wolroys.wellbeing.domain.exception.AccountIsNotActivated;
-import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
-import com.wolroys.wellbeing.domain.exception.UserNotFoundException;
 import com.wolroys.wellbeing.domain.user.UserMapper;
 import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.*;
+import com.wolroys.wellbeing.util.exception.AccountIsNotActivated;
+import com.wolroys.wellbeing.util.exception.EntityNotFoundException;
+import com.wolroys.wellbeing.util.exception.UserNotFoundException;
 import com.wolroys.wellbeing.util.jwt.JwtTokenProvider;
 import com.wolroys.wellbeing.util.response.Response;
 import lombok.RequiredArgsConstructor;

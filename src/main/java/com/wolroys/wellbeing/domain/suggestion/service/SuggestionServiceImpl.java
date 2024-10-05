@@ -1,9 +1,9 @@
 package com.wolroys.wellbeing.domain.suggestion.service;
 
-import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.domain.suggestion.entity.Suggestion;
 import com.wolroys.wellbeing.domain.suggestion.repository.SuggestionRepository;
 import com.wolroys.wellbeing.domain.suggestion.service.dto.SuggestionRequest;
+import com.wolroys.wellbeing.util.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
 import lombok.RequiredArgsConstructor;

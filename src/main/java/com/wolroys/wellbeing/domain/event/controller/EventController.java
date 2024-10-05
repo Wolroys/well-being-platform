@@ -36,9 +36,9 @@ public class EventController {
         return ResponseEntity.ok(new Response<EventDto>().created(eventService.create(eventDto)));
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<Response<EventDto>> editEvent(@PathVariable Long id, @RequestBody EventRequestDto updatedEvent) {
-        return ResponseEntity.ok(new Response<EventDto>().updated(eventService.edit(id, updatedEvent)));
+    @PutMapping("/edit")
+    public ResponseEntity<Response<EventDto>> editEvent(@RequestBody EventRequestDto updatedEvent) {
+        return ResponseEntity.ok(new Response<EventDto>().updated(eventService.edit(updatedEvent)));
     }
 
     @DeleteMapping("/delete/{id}")

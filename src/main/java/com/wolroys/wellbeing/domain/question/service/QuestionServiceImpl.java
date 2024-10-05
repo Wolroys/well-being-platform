@@ -2,7 +2,6 @@ package com.wolroys.wellbeing.domain.question.service;
 
 import com.wolroys.wellbeing.domain.event.EventRepository;
 import com.wolroys.wellbeing.domain.event.entity.Event;
-import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.domain.question.entity.Question;
 import com.wolroys.wellbeing.domain.question.entity.QuestionDto;
 import com.wolroys.wellbeing.domain.question.entity.QuestionRequest;
@@ -11,6 +10,7 @@ import com.wolroys.wellbeing.domain.question.repository.QuestionRepository;
 import com.wolroys.wellbeing.domain.question.util.QuestionMapper;
 import com.wolroys.wellbeing.domain.user.entity.User;
 import com.wolroys.wellbeing.domain.user.service.UserService;
+import com.wolroys.wellbeing.util.exception.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

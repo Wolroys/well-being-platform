@@ -1,7 +1,8 @@
 package com.wolroys.wellbeing.aop;
 
-import com.wolroys.wellbeing.domain.exception.AccountIsNotActivated;
-import com.wolroys.wellbeing.domain.exception.EntityNotFoundException;
+import com.wolroys.wellbeing.util.exception.AccountIsNotActivated;
+import com.wolroys.wellbeing.util.exception.EntityNotFoundException;
+import com.wolroys.wellbeing.util.exception.IncorrectDateException;
 import com.wolroys.wellbeing.util.response.Violation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,13 +28,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<Object> handleAccessException(AccessDeniedException e) {
+    public ResponseEntity<Object> handleAccessException() {
         Violation violation = new Violation(HttpStatus.FORBIDDEN);
         violation.setMessage("Access denied");
         return buildResponseEntity(violation);
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, AccountIsNotActivated.class})
+    @ExceptionHandler({IllegalArgumentException.class, AccountIsNotActivated.class,
+            IncorrectDateException.class})
     public ResponseEntity<Object> handleConstraintViolation(RuntimeException e) {
         Violation violation = new Violation(HttpStatus.BAD_REQUEST);
         violation.setMessage(e.getMessage());

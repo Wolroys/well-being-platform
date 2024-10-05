@@ -1,4 +1,4 @@
-package com.wolroys.wellbeing.domain.exception;
+package com.wolroys.wellbeing.util.exception;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {

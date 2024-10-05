@@ -11,15 +11,19 @@ import java.time.LocalDateTime;
 @Accessors
 public class EventRequestDto {
 
+    private Long id;
+
     private String title;
 
     private String description;
 
-    private LocalDateTime date;
+    private LocalDateTime startDate;
+
+    private LocalDateTime endDate;
 
     private Long speakerId;
 
-    private String link;
+    private String url;
 
     private Status status;
 }

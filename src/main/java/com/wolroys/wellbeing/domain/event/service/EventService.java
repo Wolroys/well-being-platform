@@ -16,5 +16,5 @@ public interface EventService {
 
     EventDto deleteById(Long id);
 
-    EventDto edit(Long id, EventRequestDto updatedEvent);
+    EventDto edit(EventRequestDto updatedEvent);
 }
