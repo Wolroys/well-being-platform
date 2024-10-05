@@ -90,6 +90,9 @@ public class EventServiceImpl implements EventService {
             event.setSpeaker(speaker);
         }
 
+        if (StringUtils.hasText(request.getUrl()))
+            event.setUrl(request.getUrl());
+
         if (request.getStatus() != null) {
             event.setStatus(request.getStatus());
         }
