@@ -47,11 +47,14 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public EventDto create(EventRequestDto eventRequest) {
-        Event event = eventMapper.toEntity(eventRequest);
+    public EventDto create(EventRequestDto request) {
+        Event event = new Event();
 
-        eventRepository.save(event);
-        log.info("Event {} was added", event.getTitle());
+        setGeneralFields(request, event);
+
+        event = eventRepository.save(event);
+
+        log.info("Event {} - {} was added", event.getTitle(), event.getId());
 
         return eventMapper.toDto(event);
     }
@@ -70,8 +73,19 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventDto edit(EventRequestDto request) {
+
+        if (request.getId() == null) {
+            throw new IllegalArgumentException("The request id is mandatory");
+        }
+
         Event event = getEvent(request.getId());
 
+        setGeneralFields(request, event);
+
+        return eventMapper.toDto(event);
+    }
+
+    private void setGeneralFields(EventRequestDto request, Event event) {
         if (StringUtils.hasText(request.getTitle())) {
             event.setTitle(request.getTitle());
         }
@@ -117,8 +131,6 @@ public class EventServiceImpl implements EventService {
                 throw new IncorrectDateException("Start date cannot be after end date");
             }
         }
-
-        return eventMapper.toDto(event);
     }
 
     private Event getEvent(Long id) {
