@@ -70,18 +70,14 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventDto edit(EventRequestDto request) {
-        boolean isEventEdited = false;
-
         Event event = getEvent(request.getId());
 
         if (StringUtils.hasText(request.getTitle())) {
             event.setTitle(request.getTitle());
-            isEventEdited = true;
         }
 
         if (StringUtils.hasText(request.getDescription())) {
             event.setDescription(request.getDescription());
-            isEventEdited = true;
         }
 
         if (request.getSpeakerId() != null) {
@@ -92,12 +88,10 @@ public class EventServiceImpl implements EventService {
                     });
 
             event.setSpeaker(speaker);
-            isEventEdited = true;
         }
 
         if (request.getStatus() != null) {
             event.setStatus(request.getStatus());
-            isEventEdited = true;
         }
 
         if (request.getStartDate() != null && request.getEndDate() != null) {
@@ -108,12 +102,6 @@ public class EventServiceImpl implements EventService {
 
             event.setStartDate(request.getStartDate());
             event.setEndDate(request.getEndDate());
-            isEventEdited = true;
-        }
-
-        if (isEventEdited) {
-            event = eventRepository.save(event);
-            log.info("Event has been edited");
         } else if (request.getStartDate() == null && event.getStartDate() != null && request.getEndDate() != null) {
 
             if (event.getStartDate().isAfter(request.getEndDate())) {
