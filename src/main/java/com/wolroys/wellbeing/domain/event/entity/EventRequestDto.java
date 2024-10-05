@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Accessors
+@Accessors(chain = true)
 public class EventRequestDto {
 
     private Long id;
