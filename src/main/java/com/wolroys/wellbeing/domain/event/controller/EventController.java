@@ -20,7 +20,7 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    public ResponseEntity<ResponseWithList<EventDto>> findAllEvents(@PageableDefault(sort = {"date"},
+    public ResponseEntity<ResponseWithList<EventDto>> findAllEvents(@PageableDefault(sort = {"start_date"},
             direction = Sort.Direction.ASC, size = 8) Pageable pageable,
                                                                     @RequestParam(required = false) String title) {
         return ResponseEntity.ok(new ResponseWithList<EventDto>().foundWithPages(eventService.findAll(pageable, title)));
