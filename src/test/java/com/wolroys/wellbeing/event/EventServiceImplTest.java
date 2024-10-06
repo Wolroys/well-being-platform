@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
-public class EventServiceImplTest extends PostgreSQLContainerInitializer {
+class EventServiceImplTest extends PostgreSQLContainerInitializer {
 
     @Autowired
     private EventRepository eventRepository;
