@@ -1,23 +1,61 @@
-document.getElementById('loginForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.querySelector('form');
+    const emailInput = document.getElementById('Email');
+    const passwordInput = document.getElementById('Password');
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Остановить стандартное поведение формы
 
-    const response = await fetch('http://localhost:8080/user/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email, password})
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        try {
+            const response = await fetch('http://localhost:8080/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                const token = responseData.token;
+                // Сохраняем JWT токен в localStorage или sessionStorage
+                localStorage.setItem('jwt', token);
+                // Вывод успешного сообщения
+                showSuccessAlert('Успешная авторизация! Добро пожаловать, ' + responseData.data.name);
+
+                // Перенаправление на другую страницу или действие
+                window.location.href = '/dashboard'; // Пример перенаправления
+            } else {
+                const errorData = await response.json();
+                // Показать сообщение об ошибке
+                showErrorAlert(errorData.error || "Login failed!");
+            }
+        } catch (error) {
+            showErrorAlert("Something went wrong. Please try again.");
+        }
     });
 
-    const data = await response.json();
+    function showSuccessAlert(message) {
+        const successAlert = document.getElementById('success-alert');
+        const successMessage = document.getElementById('success-message');
+        successMessage.innerText = message;
+        successAlert.classList.remove('hidden');
+    }
 
-    if (response.ok) {
-        localStorage.setItem('token', data.token);
-        window.location.href = 'dashboard.html';
-    } else {
-        alert(data.message);
+    function showErrorAlert(message) {
+        const errorAlert = document.getElementById('error-alert');
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.innerText = message;
+        errorAlert.classList.remove('hidden');
+    }
+
+    function dismissAlert(alertId) {
+        document.getElementById(alertId).classList.add('hidden');
     }
 });

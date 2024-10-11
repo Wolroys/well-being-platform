@@ -1,25 +1,46 @@
-document.getElementById('registerForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const registerForm = document.querySelector('form');
+    const nameInput = document.getElementById('FirstName');
+    const lastNameInput = document.getElementById('LastName');
+    const emailInput = document.getElementById('Email');
+    const passwordInput = document.getElementById('Password');
 
-    const name = document.getElementById('name').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    registerForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    const response = await fetch('http://localhost:8080/user/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({email, password, name, lastName})
+        const name = nameInput.value;
+        const lastName = lastNameInput.value;
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        try {
+            const response = await fetch('http://localhost:8080/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    name: name,
+                    lastName: lastName
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                const responseData = await response.json();
+                const token = responseData.token;
+                // Сохраняем JWT токен в localStorage или sessionStorage
+                localStorage.setItem('jwt', token);
+                // Перенаправление на другую страницу или действие
+                window.location.href = '/dashboard'; // Пример перенаправления
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            alert("something went wrong");
+        }
     });
-
-    const data = await response.json();
-
-    if (response.ok) {
-        localStorage.setItem('token', data.token);
-        window.location.href = 'dashboard.html';
-    } else {
-        alert(data.message);
-    }
 });
