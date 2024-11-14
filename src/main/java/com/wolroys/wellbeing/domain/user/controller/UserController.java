@@ -60,5 +60,9 @@ public class UserController {
                 .ok(new Response<UserDto>().updated(userService.confirmRegistrationToken(token)));
     }
 
-
+    @GetMapping("/get_speakers")
+    public ResponseEntity<ResponseWithList<UserDto>> getSpeakers(@RequestParam(required = false) String name) {
+        return ResponseEntity
+                .ok(new ResponseWithList<UserDto>().found(userService.findAllSpeakers(name)));
+    }
 }

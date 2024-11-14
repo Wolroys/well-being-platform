@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,4 +20,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     boolean existsUserByEmail(String email);
+
+    @Query(value = "select * from users u " +
+            "where u.role = 'SPEAKER' " +
+            "and (:name is null or lower(u.name) like lower(concat('%', :name, '%')) " +
+            "or lower(u.last_name) like lower(concat('%', :name, '%'))) ", nativeQuery = true)
+    List<User> findAllSpeakers(String name);
 }

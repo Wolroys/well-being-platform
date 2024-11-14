@@ -195,4 +195,11 @@ public class UserServiceImpl implements UserService {
         log.info("Current account is {}", email);
         return user.getUser();
     }
+
+    @Override
+    public List<UserDto> findAllSpeakers(String name) {
+        return userRepository.findAllSpeakers(name)
+                .stream().map(userMapper::toDto)
+                .toList();
+    }
 }
