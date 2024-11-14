@@ -48,8 +48,7 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
                         .requestMatchers("/user/register").permitAll()
                         .requestMatchers("/user/confirm-email").permitAll()
 
-                        .requestMatchers("/event").permitAll()
-                        .requestMatchers("/event/info").permitAll()
+                        .requestMatchers("/event/guest").permitAll()
 
                         .requestMatchers("/swagger-ui.html", "v3/api-docs/**").permitAll()
 

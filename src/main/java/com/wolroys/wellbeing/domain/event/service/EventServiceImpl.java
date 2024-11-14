@@ -5,6 +5,7 @@ import com.wolroys.wellbeing.domain.event.EventRepository;
 import com.wolroys.wellbeing.domain.event.entity.Event;
 import com.wolroys.wellbeing.domain.event.entity.EventDto;
 import com.wolroys.wellbeing.domain.event.entity.EventRequestDto;
+import com.wolroys.wellbeing.domain.event.entity.UnauthorizedEventDto;
 import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.User;
 import com.wolroys.wellbeing.util.exception.EventNotFoundException;
@@ -83,6 +84,13 @@ public class EventServiceImpl implements EventService {
         setGeneralFields(request, event);
 
         return eventMapper.toDto(event);
+    }
+
+    @Override
+    public List<UnauthorizedEventDto> findAllForUnauthorized(Pageable pageable, String title) {
+        return eventRepository.findAll(pageable, title)
+                .map(eventMapper::toUnauthorizedEventDto)
+                .toList();
     }
 
     private void setGeneralFields(EventRequestDto request, Event event) {

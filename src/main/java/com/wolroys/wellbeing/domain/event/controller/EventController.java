@@ -2,6 +2,7 @@ package com.wolroys.wellbeing.domain.event.controller;
 
 import com.wolroys.wellbeing.domain.event.entity.EventDto;
 import com.wolroys.wellbeing.domain.event.entity.EventRequestDto;
+import com.wolroys.wellbeing.domain.event.entity.UnauthorizedEventDto;
 import com.wolroys.wellbeing.domain.event.service.EventService;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
@@ -21,7 +22,7 @@ public class EventController {
 
     @GetMapping
     public ResponseEntity<ResponseWithList<EventDto>> findAllEvents(@PageableDefault(sort = {"start_date"},
-            direction = Sort.Direction.ASC, size = 8) Pageable pageable,
+                                                                                direction = Sort.Direction.ASC, size = 8) Pageable pageable,
                                                                     @RequestParam(required = false) String title) {
         return ResponseEntity.ok(new ResponseWithList<EventDto>().foundWithPages(eventService.findAll(pageable, title)));
     }
@@ -49,5 +50,15 @@ public class EventController {
     @GetMapping("/{id}")
     public ResponseEntity<Response<EventDto>> getById(@PathVariable Long id) {
         return ResponseEntity.ok(new Response<EventDto>().found(eventService.findById(id)));
+    }
+
+    @GetMapping("/guest")
+    public ResponseEntity<ResponseWithList<UnauthorizedEventDto>> getUnauthorizedEvents(
+            @PageableDefault(sort = {"start_date"}, direction = Sort.Direction.ASC, size = 8) Pageable pageable,
+            String title) {
+
+        return ResponseEntity.ok(new ResponseWithList<UnauthorizedEventDto>().found(
+                eventService.findAllForUnauthorized(pageable, title))
+        );
     }
 }
