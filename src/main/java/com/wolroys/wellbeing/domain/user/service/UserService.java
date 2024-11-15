@@ -1,9 +1,6 @@
 package com.wolroys.wellbeing.domain.user.service;
 
-import com.wolroys.wellbeing.domain.user.entity.AuthorizationRequest;
-import com.wolroys.wellbeing.domain.user.entity.User;
-import com.wolroys.wellbeing.domain.user.entity.UserDto;
-import com.wolroys.wellbeing.domain.user.entity.UserRequestDto;
+import com.wolroys.wellbeing.domain.user.entity.*;
 import com.wolroys.wellbeing.util.response.Response;
 import org.springframework.data.domain.Pageable;
 
@@ -17,15 +14,17 @@ public interface UserService {
 
     UserDto deleteById(Long id);
 
-    UserDto edit(Long id, UserRequestDto userDto);
+    UserDto edit(UserRequest userDto);
 
     Response<UserDto> login(AuthorizationRequest authorizationRequest);
 
-    UserDto register(UserRequestDto userRequestDto);
+    UserDto register(UserRequest userRequest);
 
     UserDto confirmRegistrationToken(String token);
 
     User getAccountFromSecurityContext();
 
     List<UserDto> findAllSpeakers(String name);
+
+    UserParameterDto setBodyParameters(UserRequest request);
 }

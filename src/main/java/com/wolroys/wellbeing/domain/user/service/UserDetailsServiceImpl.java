@@ -1,7 +1,7 @@
 package com.wolroys.wellbeing.domain.user.service;
 
-import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.User;
+import com.wolroys.wellbeing.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

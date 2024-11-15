@@ -61,4 +61,6 @@ public class EventController {
                 eventService.findAllForUnauthorized(pageable, title))
         );
     }
+
+
 }

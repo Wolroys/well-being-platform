@@ -2,9 +2,11 @@ package com.wolroys.wellbeing.domain.user.service;
 
 import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationToken;
 import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationTokenRepository;
-import com.wolroys.wellbeing.domain.user.UserMapper;
-import com.wolroys.wellbeing.domain.user.UserRepository;
 import com.wolroys.wellbeing.domain.user.entity.*;
+import com.wolroys.wellbeing.domain.user.repository.UserParameterRepository;
+import com.wolroys.wellbeing.domain.user.repository.UserRepository;
+import com.wolroys.wellbeing.domain.user.util.UserMapper;
+import com.wolroys.wellbeing.domain.user.util.UserParameterMapper;
 import com.wolroys.wellbeing.util.exception.AccountIsNotActivated;
 import com.wolroys.wellbeing.util.exception.EntityNotFoundException;
 import com.wolroys.wellbeing.util.exception.UserNotFoundException;
@@ -44,7 +46,12 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final UserParameterRepository userParameterRepository;
+    private final UserParameterMapper userParameterMapper;
 
+    private static void callNotFoundError(Long id) {
+        log.error("User with id - {} wasn't found", id);
+    }
 
     @Override
     public List<UserDto> findAll(Pageable pageable, String name) {
@@ -58,7 +65,7 @@ public class UserServiceImpl implements UserService {
     public UserDto findById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("User with id - {} wasn't found", id);
+                    callNotFoundError(id);
                     return new UserNotFoundException("User doesn't exist");
                 });
 
@@ -70,7 +77,7 @@ public class UserServiceImpl implements UserService {
     public UserDto deleteById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("User with id - {} wasn't found", id);
+                    callNotFoundError(id);
                     return new UserNotFoundException("This user doesn't exist");
                 });
 
@@ -82,29 +89,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto edit(Long id, UserRequestDto updatedUser) {
-        boolean isUserEdited = false;
+    public UserDto edit(UserRequest request) {
 
-        User user = userRepository.findById(id)
+        if (request.getId() == null) {
+            throw new IllegalArgumentException("user id is required");
+        }
+
+        User user = userRepository.findById(request.getId())
                 .orElseThrow(() -> {
-                    log.error("User with id - {} wasn't found", id);
+                    callNotFoundError(request.getId());
                     return new UserNotFoundException("This user doesn't exist");
                 });
 
-        if (StringUtils.hasText(updatedUser.getName())) {
-            user.setName(updatedUser.getName());
-            isUserEdited = true;
+        if (StringUtils.hasText(request.getName())) {
+            user.setName(request.getName());
         }
 
-        if (StringUtils.hasText(updatedUser.getEmail())) {
-            user.setEmail(updatedUser.getEmail());
-            isUserEdited = true;
-        }
-
-
-        if (isUserEdited) {
-            user = userRepository.save(user);
-            log.info("User has been edited");
+        if (StringUtils.hasText(request.getEmail())) {
+            user.setEmail(request.getEmail());
         }
 
 
@@ -146,17 +148,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto register(UserRequestDto userRequestDto) {
+    public UserDto register(UserRequest userRequest) {
 
-        if (userRepository.existsUserByEmail(userRequestDto.getEmail())) {
+        if (userRepository.existsUserByEmail(userRequest.getEmail())) {
             log.error("This email already taken");
             throw new IllegalArgumentException("This email already taken");
         }
 
-        User user = userMapper.toEntity(userRequestDto);
+        User user = userMapper.toEntity(userRequest);
 
         user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         userRepository.save(user);
         log.info("User {} was registered", user.getEmail());
 
@@ -201,5 +203,34 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAllSpeakers(name)
                 .stream().map(userMapper::toDto)
                 .toList();
+    }
+
+    @Transactional
+    public UserParameterDto setBodyParameters(UserRequest request) {
+
+        if (request.getId() == null) {
+            throw new IllegalArgumentException("user's id is required");
+        }
+
+        User user = userRepository.findById(request.getId())
+                .orElseThrow(() -> {
+                    callNotFoundError(request.getId());
+                    return new UserNotFoundException("This user doesn't exist");
+                });
+
+        UserParameter userParameter = new UserParameter();
+        userParameter.setUser(user);
+
+        if (request.getWeight() != null) {
+            userParameter.setWeight(request.getWeight());
+        }
+
+        if (request.getHeight() != null) {
+            userParameter.setHeight(request.getHeight());
+        }
+
+        userParameter = userParameterRepository.save(userParameter);
+
+        return userParameterMapper.toDto(userParameter);
     }
 }

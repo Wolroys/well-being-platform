@@ -112,7 +112,6 @@
         </createTable>
     </changeSet>
 
-
     <changeSet id="create_table_suggestion" author="Aleksey">
         <createTable tableName="suggestion">
             <column name="id" type="bigserial"/>
@@ -120,6 +119,21 @@
             <column name="comment" type="text"/>
             <column name="is_approved" type="boolean"/>
             <column name="theme" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table_user_parameter" author="Aleksey">
+        <createTable tableName="user_parameter">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="user_parameter_fk"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="weight" type="numeric(4, 1)"/>
+            <column name="height" type="numeric(4, 1)"/>
         </createTable>
     </changeSet>
 

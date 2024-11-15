@@ -23,7 +23,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     private String name;
 
     @NotEmpty(message = "The last name must not be empty")
@@ -43,6 +42,10 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions;
+
+    private Double weight;
+
+    private Double height;
 
     public String getFullName() {
         return name + " " + lastName;
