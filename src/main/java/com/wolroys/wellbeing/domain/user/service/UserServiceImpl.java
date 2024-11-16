@@ -5,10 +5,7 @@ import com.wolroys.wellbeing.domain.confirmationToken.ConfirmationTokenRepositor
 import com.wolroys.wellbeing.domain.user.entity.Role;
 import com.wolroys.wellbeing.domain.user.entity.User;
 import com.wolroys.wellbeing.domain.user.entity.UserParameter;
-import com.wolroys.wellbeing.domain.user.entity.dto.AuthorizationRequest;
-import com.wolroys.wellbeing.domain.user.entity.dto.UserDto;
-import com.wolroys.wellbeing.domain.user.entity.dto.UserParameterDto;
-import com.wolroys.wellbeing.domain.user.entity.dto.UserRequest;
+import com.wolroys.wellbeing.domain.user.entity.dto.*;
 import com.wolroys.wellbeing.domain.user.repository.UserParameterRepository;
 import com.wolroys.wellbeing.domain.user.repository.UserRepository;
 import com.wolroys.wellbeing.domain.user.util.UserMapper;
@@ -212,15 +209,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public UserParameterDto setBodyParameters(UserRequest request) {
+    public UserParameterDto setBodyParameters(UserParameterRequest request) {
 
-        if (request.getId() == null) {
+        if (request.getUserId() == null) {
             throw new IllegalArgumentException("user's id is required");
         }
 
         User user = userRepository.findById(request.getId())
                 .orElseThrow(() -> {
-                    callNotFoundError(request.getId());
+                    callNotFoundError(request.getUserId());
                     return new UserNotFoundException("This user doesn't exist");
                 });
 
@@ -251,5 +248,28 @@ public class UserServiceImpl implements UserService {
                             return new EntityNotFoundException("User with id " + userId + " not found");
                         })
         );
+    }
+
+    @Transactional
+    public UserParameterDto editParameters(UserParameterRequest request) {
+        if (request.getId() == null) {
+            throw new IllegalArgumentException("user's id is required");
+        }
+
+        UserParameter userParameter = userParameterRepository.findById(request.getId())
+                .orElseThrow(() -> {
+                    callNotFoundError(request.getId());
+                    return new EntityNotFoundException("Parameters don't exist");
+                });
+
+        if (request.getWeight() != null) {
+            request.setWeight(request.getWeight());
+        }
+
+        if (request.getHeight() != null) {
+            request.setHeight(request.getHeight());
+        }
+
+        return userParameterMapper.toDto(userParameter);
     }
 }
