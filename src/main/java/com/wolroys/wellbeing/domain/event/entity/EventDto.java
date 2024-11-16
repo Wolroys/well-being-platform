@@ -1,6 +1,6 @@
 package com.wolroys.wellbeing.domain.event.entity;
 
-import com.wolroys.wellbeing.domain.user.entity.UserDto;
+import com.wolroys.wellbeing.domain.user.entity.dto.UserDto;
 import lombok.Getter;
 import lombok.Setter;
 

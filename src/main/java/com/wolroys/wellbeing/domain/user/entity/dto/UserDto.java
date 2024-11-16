@@ -1,11 +1,12 @@
-package com.wolroys.wellbeing.domain.user.entity;
+package com.wolroys.wellbeing.domain.user.entity.dto;
 
+import com.wolroys.wellbeing.domain.user.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRequest {
+public class UserDto {
 
     private Long id;
 
@@ -15,9 +16,5 @@ public class UserRequest {
 
     private String email;
 
-    private String password;
-
-    private Double weight;
-
-    private Double height;
+    private Role role;
 }
