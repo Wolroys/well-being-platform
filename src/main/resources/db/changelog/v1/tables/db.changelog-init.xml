@@ -134,6 +134,15 @@
             </column>
             <column name="weight" type="numeric(4, 1)"/>
             <column name="height" type="numeric(4, 1)"/>
+            <column name="added_at" type="timestamp"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_table_sleep_track" author="Aleksey">
+        <createTable tableName="sleep_track">
+            <column name="asleep_at" type="timestamp"/>
+            <column name="woke_up_at" type="timestamp"/>
+            <column name="created_at" type="timestamp"/>
         </createTable>
     </changeSet>
 
