@@ -27,4 +27,6 @@ public interface UserService {
     List<UserDto> findAllSpeakers(String name);
 
     UserParameterDto setBodyParameters(UserRequest request);
+
+    UserParameterDto getLatestParametersByUserId(Long userId);
 }

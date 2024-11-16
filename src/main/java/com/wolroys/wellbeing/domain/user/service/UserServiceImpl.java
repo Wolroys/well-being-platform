@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -38,15 +39,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final UserParameterRepository userParameterRepository;
 
     private final UserDetailsService userDetailsService;
-
-    private final UserMapper userMapper;
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
-    private final UserParameterRepository userParameterRepository;
+    private final UserMapper userMapper;
     private final UserParameterMapper userParameterMapper;
 
     private static void callNotFoundError(Long id) {
@@ -229,8 +229,21 @@ public class UserServiceImpl implements UserService {
             userParameter.setHeight(request.getHeight());
         }
 
+        userParameter.setAddedAt(LocalDateTime.now());
+
         userParameter = userParameterRepository.save(userParameter);
 
         return userParameterMapper.toDto(userParameter);
+    }
+
+    @Override
+    public UserParameterDto getLatestParametersByUserId(Long userId) {
+        return userParameterMapper.toDto(
+                userParameterRepository.findLatestByUserId(userId)
+                        .orElseThrow(() -> {
+                            callNotFoundError(userId);
+                            return new EntityNotFoundException("User with id " + userId + " not found");
+                        })
+        );
     }
 }

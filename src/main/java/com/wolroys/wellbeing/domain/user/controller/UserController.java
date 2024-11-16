@@ -73,4 +73,10 @@ public class UserController {
     public Response<UserParameterDto> setParameters(@RequestBody UserRequest request) {
         return new Response<UserParameterDto>().created(userService.setBodyParameters(request));
     }
+
+    @GetMapping("/latest_parameters")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<UserParameterDto> getLatestParams(@RequestParam Long userId) {
+        return new Response<UserParameterDto>().found(userService.getLatestParametersByUserId(userId));
+    }
 }
