@@ -27,8 +27,6 @@ public class Event {
 
     private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "speaker_id")
     private User speaker;

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -94,6 +95,10 @@ public class EventServiceImpl implements EventService {
     }
 
     private void setGeneralFields(EventRequestDto request, Event event) {
+        if (request.getStartDate().isBefore(LocalDateTime.now())) {
+            throw new IncorrectDateException("Start date cannot be before today date");
+        }
+
         if (StringUtils.hasText(request.getTitle())) {
             event.setTitle(request.getTitle());
         }
@@ -119,26 +124,8 @@ public class EventServiceImpl implements EventService {
             event.setStatus(request.getStatus());
         }
 
-        if (request.getStartDate() != null && request.getEndDate() != null) {
+        event.setStartDate(request.getStartDate());
 
-            if (request.getStartDate().isAfter(request.getEndDate())) {
-                throw new IncorrectDateException("Start date cannot be after end date");
-            }
-
-            event.setStartDate(request.getStartDate());
-            event.setEndDate(request.getEndDate());
-        } else if (request.getStartDate() == null && event.getStartDate() != null && request.getEndDate() != null) {
-
-            if (event.getStartDate().isAfter(request.getEndDate())) {
-                throw new IncorrectDateException("Start date cannot be after end date");
-            }
-
-            event.setEndDate(request.getEndDate());
-        } else if (request.getEndDate() == null && event.getEndDate() != null && request.getStartDate() != null) {
-            if (request.getStartDate().isAfter(event.getEndDate())) {
-                throw new IncorrectDateException("Start date cannot be after end date");
-            }
-        }
     }
 
     private Event getEvent(Long id) {

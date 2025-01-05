@@ -19,8 +19,6 @@ public class EventRequestDto {
 
     private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
-
     private Long speakerId;
 
     private String url;

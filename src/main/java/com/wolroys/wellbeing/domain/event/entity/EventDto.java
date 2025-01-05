@@ -18,8 +18,6 @@ public class EventDto {
 
     private LocalDateTime startDate;
 
-    private LocalDateTime endDate;
-
     private UserDto speaker;
 
     private String url;

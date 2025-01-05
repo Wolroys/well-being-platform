@@ -37,7 +37,6 @@
             </column>
             <column name="description" type="varchar"/>
             <column name="start_date" type="timestamp"/>
-            <column name="end_date" type="timestamp"/>
             <column name="speaker_id" type="bigint">
                 <constraints referencedTableName="users" referencedColumnNames="id"
                              foreignKeyName="event_user_fk"/>
