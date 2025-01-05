@@ -1,5 +1,6 @@
-package com.wolroys.wellbeing.domain.user.entity;
+package com.wolroys.wellbeing.domain.user.entity.dto;
 
+import com.wolroys.wellbeing.domain.user.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 

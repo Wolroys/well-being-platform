@@ -139,9 +139,16 @@
 
     <changeSet id="create_table_sleep_track" author="Aleksey">
         <createTable tableName="sleep_track">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="sleep_track_user_fk"
+                             referencedTableName="users"
+                             referencedColumnNames="id"/>
+            </column>
             <column name="asleep_at" type="timestamp"/>
             <column name="woke_up_at" type="timestamp"/>
-            <column name="created_at" type="timestamp"/>
         </createTable>
     </changeSet>
 

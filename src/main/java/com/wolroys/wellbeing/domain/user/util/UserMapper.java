@@ -2,8 +2,8 @@ package com.wolroys.wellbeing.domain.user.util;
 
 
 import com.wolroys.wellbeing.domain.user.entity.User;
-import com.wolroys.wellbeing.domain.user.entity.UserDto;
-import com.wolroys.wellbeing.domain.user.entity.UserRequest;
+import com.wolroys.wellbeing.domain.user.entity.dto.UserDto;
+import com.wolroys.wellbeing.domain.user.entity.dto.UserRequest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

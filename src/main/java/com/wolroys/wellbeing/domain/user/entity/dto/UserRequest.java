@@ -1,4 +1,4 @@
-package com.wolroys.wellbeing.domain.user.entity;
+package com.wolroys.wellbeing.domain.user.entity.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +16,4 @@ public class UserRequest {
     private String email;
 
     private String password;
-
-    private Double weight;
-
-    private Double height;
 }

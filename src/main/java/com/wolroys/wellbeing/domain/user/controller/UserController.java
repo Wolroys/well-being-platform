@@ -1,9 +1,6 @@
 package com.wolroys.wellbeing.domain.user.controller;
 
-import com.wolroys.wellbeing.domain.user.entity.AuthorizationRequest;
-import com.wolroys.wellbeing.domain.user.entity.UserDto;
-import com.wolroys.wellbeing.domain.user.entity.UserParameterDto;
-import com.wolroys.wellbeing.domain.user.entity.UserRequest;
+import com.wolroys.wellbeing.domain.user.entity.dto.*;
 import com.wolroys.wellbeing.domain.user.service.UserService;
 import com.wolroys.wellbeing.util.response.Response;
 import com.wolroys.wellbeing.util.response.ResponseWithList;
@@ -70,7 +67,7 @@ public class UserController {
 
     @PostMapping("/set_parameters")
     @ResponseStatus(HttpStatus.CREATED)
-    public Response<UserParameterDto> setParameters(@RequestBody UserRequest request) {
+    public Response<UserParameterDto> setParameters(@RequestBody UserParameterRequest request) {
         return new Response<UserParameterDto>().created(userService.setBodyParameters(request));
     }
 
@@ -78,5 +75,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public Response<UserParameterDto> getLatestParams(@RequestParam Long userId) {
         return new Response<UserParameterDto>().found(userService.getLatestParametersByUserId(userId));
+    }
+
+    @PutMapping("/body_parameters")
+    @ResponseStatus(HttpStatus.OK)
+    public Response<UserParameterDto> setBodyParameters(@RequestBody UserParameterRequest request) {
+        return new Response<UserParameterDto>().updated(userService.editParameters(request));
     }
 }
